@@ -421,4 +421,588 @@
                         <div class="mb-4">
                             <label class="block text-gray-700 mb-2">Compounding Frequency</label>
                             <select id="compound-frequency" class="w-full p-3 border border-gray-300 rounded-md input-field focus:outline-none">
-    
+                                <option value="annually">Annually (1/year)</option>
+                                <option value="semi-annually">Semi-Annually (2/year)</option>
+                                <option value="quarterly">Quarterly (4/year)</option>
+                                <option value="monthly">Monthly (12/year)</option>
+                                <option value="daily">Daily (365/year)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="add-contribution" class="mr-2">
+                                    <span>Regular Contributions</span>
+                                </div>
+                            </label>
+                            
+                            <div id="contribution-fields" class="pl-6 mt-2 hidden">
+                                <div class="mb-3">
+                                    <label class="block text-gray-700 mb-1">Contribution Amount (₹)</label>
+                                    <input type="number" id="contribution-amount" class="w-full p-3 border border-gray-300 rounded-md input-field focus:outline-none" placeholder="E.g., 1000">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-gray-700 mb-1">Contribution Frequency</label>
+                                    <select id="contribution-frequency" class="w-full p-3 border border-gray-300 rounded-md input-field focus:outline-none">
+                                        <option value="monthly">Monthly</option>
+                                        <option value="quarterly">Quarterly</option>
+                                        <option value="yearly">Yearly</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button id="calculate-compound-btn" class="btn-primary py-3 px-6 rounded-md w-full mb-4">
+                            <i class="fas fa-calculator mr-2"></i>Calculate Growth
+                        </button>
+                    </div>
+                    
+                    <div class="w-full md:w-1/2">
+                        <div class="bg-gray-100 p-6 rounded-lg">
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">Investment Growth</h3>
+                            
+                            <div class="mb-4">
+                                <div class="text-gray-600 mb-1">Future Value</div>
+                                <div id="future-value" class="text-3xl font-bold text-indigo-600">₹ 0</div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                <div>
+                                    <div class="text-gray-600 mb-1">Total Principal</div>
+                                    <div id="total-principal" class="text-xl font-semibold">₹ 0</div>
+                                </div>
+                                
+                                <div>
+                                    <div class="text-gray-600 mb-1">Total Interest</div>
+                                    <div id="compound-interest" class="text-xl font-semibold">₹ 0</div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white p-4 rounded-md shadow mb-4">
+                                <h4 class="font-semibold mb-2">Investment Breakdown</h4>
+                                <div class="relative h-4 rounded-full overflow-hidden bg-gray-200">
+                                    <div id="investment-principal-bar" class="absolute top-0 left-0 h-full bg-indigo-600"></div>
+                                    <div id="investment-interest-bar" class="absolute top-0 right-0 h-full bg-indigo-300"></div>
+                                </div>
+                                <div class="flex justify-between mt-2 text-sm">
+                                    <div>
+                                        <span class="inline-block w-3 h-3 bg-indigo-600 rounded-full mr-1"></span>
+                                        <span>Principal <span id="investment-principal-percentage">0%</span></span>
+                                    </div>
+                                    <div>
+                                        <span class="inline-block w-3 h-3 bg-indigo-300 rounded-full mr-1"></span>
+                                        <span>Interest <span id="investment-interest-percentage">0%</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="yearly-breakdown" class="bg-white p-4 rounded-md shadow">
+                                <h4 class="font-semibold mb-2">Yearly Breakdown</h4>
+                                <div id="yearly-breakdown-table" class="max-h-60 overflow-y-auto">
+                                    <table class="w-full text-sm">
+                                        <thead>
+                                            <tr class="border-b">
+                                                <th class="py-2 text-left">Year</th>
+                                                <th class="py-2 text-right">Value</th>
+                                                <th class="py-2 text-right">Interest</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="breakdown-body">
+                                            <tr>
+                                                <td colspan="3" class="py-2 text-center text-gray-500">Calculate to see yearly breakdown</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-2xl font-bold"><span class="text-indigo-400">Multi</span>Tool Web App</h2>
+                    <p class="text-gray-400 mt-2">Your all-in-one solution for image manipulation and financial calculations</p>
+                </div>
+                
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <hr class="border-gray-700 mb-6">
+            
+            <div class="flex flex-col md:flex-row justify-between items-center text-sm">
+                <p class="mb-4 md:mb-0">© 2025 MultiTool Web. All rights reserved.</p>
+                
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">Contact Us</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300">FAQ</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const toolContainers = document.querySelectorAll('.tool-container');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Hide all tool containers
+                    toolContainers.forEach(container => {
+                        container.classList.remove('active');
+                    });
+                    
+                    // Deactivate all tab buttons
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Activate selected tab and container
+                    document.getElementById(tabId).classList.add('active');
+                    this.classList.add('active');
+                });
+            });
+            
+            // Image Converter Functionality
+            const converterUpload = document.getElementById('converter-upload');
+            const converterPreview = document.getElementById('converter-preview');
+            const converterPlaceholder = document.getElementById('converter-placeholder');
+            const convertBtn = document.getElementById('convert-btn');
+            const downloadConverted = document.getElementById('download-converted');
+            const formatSelect = document.getElementById('format-select');
+            const qualitySlider = document.getElementById('quality-slider');
+            const qualityValue = document.getElementById('quality-value');
+            const qualityContainer = document.getElementById('quality-container');
+            
+            let converterFile = null;
+            
+            converterUpload.addEventListener('change', function(e) {
+                converterFile = e.target.files[0];
+                if (converterFile) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        converterPreview.src = e.target.result;
+                        converterPreview.classList.remove('hidden');
+                        converterPlaceholder.classList.add('hidden');
+                        convertBtn.disabled = false;
+                    };
+                    reader.readAsDataURL(converterFile);
+                }
+            });
+            
+            formatSelect.addEventListener('change', function() {
+                const format = this.value;
+                if (format === 'png' || format === 'bmp') {
+                    qualityContainer.classList.add('hidden');
+                } else {
+                    qualityContainer.classList.remove('hidden');
+                }
+            });
+            
+            qualitySlider.addEventListener('input', function() {
+                qualityValue.textContent = this.value + '%';
+            });
+            
+            convertBtn.addEventListener('click', function() {
+                if (!converterFile) return;
+                
+                showLoading();
+                
+                setTimeout(() => {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        ctx.drawImage(img, 0, 0);
+                        
+                        const format = formatSelect.value;
+                        let quality = parseInt(qualitySlider.value) / 100;
+                        let mimeType;
+                        
+                        switch(format) {
+                                                        case 'png':
+                                mimeType = 'image/png';
+                                break;
+                            case 'jpeg':
+                                mimeType = 'image/jpeg';
+                                break;
+                            case 'webp':
+                                mimeType = 'image/webp';
+                                break;
+                            case 'bmp':
+                                mimeType = 'image/bmp';
+                                break;
+                            default:
+                                mimeType = 'image/png';
+                        }
+                        
+                        if (format === 'png' || format === 'bmp') {
+                            quality = 1.0;
+                        }
+                        
+                        const dataURL = canvas.toDataURL(mimeType, quality);
+                        downloadConverted.href = dataURL;
+                        downloadConverted.download = `converted-image.${format}`;
+                        downloadConverted.classList.remove('hidden');
+                        
+                        hideLoading();
+                    };
+                    
+                    img.src = URL.createObjectURL(converterFile);
+                }, 500);
+            });
+            
+            // Image Compressor Functionality
+            const compressorUpload = document.getElementById('compressor-upload');
+            const compressorPreview = document.getElementById('compressor-preview');
+            const compressorPlaceholder = document.getElementById('compressor-placeholder');
+            const compressBtn = document.getElementById('compress-btn');
+            const downloadCompressed = document.getElementById('download-compressed');
+            const compressionSlider = document.getElementById('compression-slider');
+            const compressionValue = document.getElementById('compression-value');
+            const originalSize = document.getElementById('original-size');
+            const compressedSize = document.getElementById('compressed-size');
+            const compressionRatio = document.getElementById('compression-ratio');
+            
+            let compressorFile = null;
+            
+            compressorUpload.addEventListener('change', function(e) {
+                compressorFile = e.target.files[0];
+                if (compressorFile) {
+                    originalSize.textContent = `Original Size: ${formatFileSize(compressorFile.size)}`;
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        compressorPreview.src = e.target.result;
+                        compressorPreview.classList.remove('hidden');
+                        compressorPlaceholder.classList.add('hidden');
+                        compressBtn.disabled = false;
+                    };
+                    reader.readAsDataURL(compressorFile);
+                }
+            });
+            
+            compressionSlider.addEventListener('input', function() {
+                compressionValue.textContent = this.value + '%';
+            });
+            
+            compressBtn.addEventListener('click', function() {
+                if (!compressorFile) return;
+                
+                showLoading();
+                
+                setTimeout(() => {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        // Calculate new dimensions based on compression level
+                        // Higher compression = smaller file but also smaller dimensions
+                        const compressionLevel = parseInt(compressionSlider.value) / 100;
+                        
+                        // Calculate dimensions (lower compression = more reduction in dimensions)
+                        const scaleFactor = 0.5 + (compressionLevel * 0.5); // Between 0.5 and 1.0
+                        
+                        canvas.width = img.width * scaleFactor;
+                        canvas.height = img.height * scaleFactor;
+                        
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        
+                        // Get JPEG with quality setting
+                        const quality = compressionLevel;
+                        const dataURL = canvas.toDataURL('image/jpeg', quality);
+                        
+                        // Estimate the compressed size
+                        const compressedSizeBytes = Math.round((dataURL.length * 3) / 4) - 
+                                                  (dataURL.endsWith('==') ? 2 : dataURL.endsWith('=') ? 1 : 0);
+                        
+                        compressedSize.textContent = `Compressed Size: ${formatFileSize(compressedSizeBytes)}`;
+                        
+                        const ratio = ((1 - (compressedSizeBytes / compressorFile.size)) * 100).toFixed(2);
+                        compressionRatio.textContent = `Compression Ratio: ${ratio}%`;
+                        
+                        downloadCompressed.href = dataURL;
+                        downloadCompressed.download = 'compressed-image.jpg';
+                        downloadCompressed.classList.remove('hidden');
+                        
+                        hideLoading();
+                    };
+                    
+                    img.src = URL.createObjectURL(compressorFile);
+                }, 500);
+            });
+            
+            function formatFileSize(bytes) {
+                if (bytes < 1024) {
+                    return bytes + ' bytes';
+                } else if (bytes < 1048576) {
+                    return (bytes / 1024).toFixed(2) + ' KB';
+                } else {
+                    return (bytes / 1048576).toFixed(2) + ' MB';
+                }
+            }
+            
+            // EMI Calculator Functionality
+            const calculateEmiBtn = document.getElementById('calculate-emi-btn');
+            const loanAmount = document.getElementById('loan-amount');
+            const interestRate = document.getElementById('interest-rate');
+            const loanTenure = document.getElementById('loan-tenure');
+            const tenureType = document.getElementById('tenure-type');
+            const monthlyEmi = document.getElementById('monthly-emi');
+            const totalInterest = document.getElementById('total-interest');
+            const totalAmount = document.getElementById('total-amount');
+            const principalBar = document.getElementById('principal-bar');
+            const interestBar = document.getElementById('interest-bar');
+            const principalPercentage = document.getElementById('principal-percentage');
+            const interestPercentage = document.getElementById('interest-percentage');
+            
+            calculateEmiBtn.addEventListener('click', function() {
+                const P = parseFloat(loanAmount.value);
+                let R = parseFloat(interestRate.value) / 100 / 12; // Monthly interest rate
+                let N = parseInt(loanTenure.value);
+                
+                if (tenureType.value === 'years') {
+                    N = N * 12; // Convert years to months
+                }
+                
+                if (isNaN(P) || isNaN(R) || isNaN(N) || P <= 0 || R <= 0 || N <= 0) {
+                    alert('Please enter valid values for all fields');
+                    return;
+                }
+                
+                // EMI calculation formula: P * R * (1+R)^N / ((1+R)^N - 1)
+                const emi = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
+                const totalPayment = emi * N;
+                const interestAmount = totalPayment - P;
+                
+                // Update UI
+                monthlyEmi.textContent = '₹ ' + formatNumber(emi);
+                totalInterest.textContent = '₹ ' + formatNumber(interestAmount);
+                totalAmount.textContent = '₹ ' + formatNumber(totalPayment);
+                
+                // Update chart
+                const principalPercent = (P / totalPayment) * 100;
+                const interestPercent = (interestAmount / totalPayment) * 100;
+                
+                principalBar.style.width = principalPercent + '%';
+                interestBar.style.width = interestPercent + '%';
+                
+                principalPercentage.textContent = principalPercent.toFixed(1) + '%';
+                interestPercentage.textContent = interestPercent.toFixed(1) + '%';
+            });
+            
+            // Compound Interest Calculator Functionality
+            const calculateCompoundBtn = document.getElementById('calculate-compound-btn');
+            const principalAmount = document.getElementById('principal-amount');
+            const annualRate = document.getElementById('annual-rate');
+            const timePeriod = document.getElementById('time-period');
+            const timeUnit = document.getElementById('time-unit');
+            const compoundFrequency = document.getElementById('compound-frequency');
+            const futureValue = document.getElementById('future-value');
+            const totalPrincipal = document.getElementById('total-principal');
+            const compoundInterest = document.getElementById('compound-interest');
+            const investmentPrincipalBar = document.getElementById('investment-principal-bar');
+            const investmentInterestBar = document.getElementById('investment-interest-bar');
+            const investmentPrincipalPercentage = document.getElementById('investment-principal-percentage');
+            const investmentInterestPercentage = document.getElementById('investment-interest-percentage');
+            const addContribution = document.getElementById('add-contribution');
+            const contributionFields = document.getElementById('contribution-fields');
+            const contributionAmount = document.getElementById('contribution-amount');
+            const contributionFrequency = document.getElementById('contribution-frequency');
+            const breakdownBody = document.getElementById('breakdown-body');
+            
+            addContribution.addEventListener('change', function() {
+                if (this.checked) {
+                    contributionFields.classList.remove('hidden');
+                } else {
+                    contributionFields.classList.add('hidden');
+                }
+            });
+            
+            calculateCompoundBtn.addEventListener('click', function() {
+                let P = parseFloat(principalAmount.value); // Principal
+                let r = parseFloat(annualRate.value) / 100; // Annual interest rate
+                let t = parseFloat(timePeriod.value); // Time period
+                
+                // Convert time to years if in months
+                if (timeUnit.value === 'months') {
+                    t = t / 12;
+                }
+                
+                // Get compounding frequency
+                let n;
+                switch(compoundFrequency.value) {
+                    case 'annually':
+                        n = 1;
+                        break;
+                    case 'semi-annually':
+                        n = 2;
+                        break;
+                    case 'quarterly':
+                        n = 4;
+                        break;
+                    case 'monthly':
+                        n = 12;
+                        break;
+                    case 'daily':
+                        n = 365;
+                        break;
+                    default:
+                        n = 1;
+                }
+                
+                // Validate inputs
+                if (isNaN(P) || isNaN(r) || isNaN(t) || P <= 0 || r <= 0 || t <= 0) {
+                    alert('Please enter valid values for all fields');
+                    return;
+                }
+                
+                let A, totalContribution = 0;
+                let yearlyBreakdown = [];
+                
+                // Check if contributions are enabled
+                if (addContribution.checked) {
+                    const PMT = parseFloat(contributionAmount.value);
+                    let paymentsPerYear;
+                    
+                    switch(contributionFrequency.value) {
+                        case 'monthly':
+                            paymentsPerYear = 12;
+                            break;
+                        case 'quarterly':
+                            paymentsPerYear = 4;
+                            break;
+                        case 'yearly':
+                            paymentsPerYear = 1;
+                            break;
+                        default:
+                            paymentsPerYear = 12;
+                    }
+                    
+                    // For contributions, we'll calculate year by year
+                    let currentAmount = P;
+                    let yearlyInterest = 0;
+                    
+                    for (let year = 1; year <= Math.ceil(t); year++) {
+                        const yearFraction = (year > t) ? (t - Math.floor(t)) : 1;
+                        const paymentsThisYear = Math.floor(paymentsPerYear * yearFraction);
+                        
+                        // Calculate compound interest for this year
+                        const startOfYearAmount = currentAmount;
+                        currentAmount = currentAmount * Math.pow(1 + r/n, n * yearFraction);
+                        yearlyInterest = currentAmount - startOfYearAmount;
+                        
+                        // Add contributions for this year
+                        if (!isNaN(PMT) && PMT > 0) {
+                            const contributionThisYear = PMT * paymentsThisYear;
+                            currentAmount += contributionThisYear;
+                            totalContribution += contributionThisYear;
+                        }
+                        
+                        // Add to yearly breakdown
+                        if (year <= Math.ceil(t)) {
+                            yearlyBreakdown.push({
+                                year: year,
+                                value: currentAmount,
+                                interest: yearlyInterest
+                            });
+                        }
+                    }
+                    
+                    A = currentAmount;
+                } else {
+                    // Simple compound interest formula: A = P(1 + r/n)^(nt)
+                    A = P * Math.pow(1 + r/n, n * t);
+                    
+                    // Generate yearly breakdown
+                    for (let year = 1; year <= Math.ceil(t); year++) {
+                        const yearValue = P * Math.pow(1 + r/n, n * Math.min(year, t));
+                        const prevYearValue = year > 1 ? 
+                            P * Math.pow(1 + r/n, n * Math.min(year-1, t)) : P;
+                        
+                        yearlyBreakdown.push({
+                            year: year,
+                            value: yearValue,
+                            interest: yearValue - prevYearValue
+                        });
+                    }
+                }
+                
+                const totalPrincipalValue = P + totalContribution;
+                const interestValue = A - totalPrincipalValue;
+                
+                // Update UI
+                futureValue.textContent = '₹ ' + formatNumber(A);
+                totalPrincipal.textContent = '₹ ' + formatNumber(totalPrincipalValue);
+                compoundInterest.textContent = '₹ ' + formatNumber(interestValue);
+                
+                // Update chart
+                const principalPercent = (totalPrincipalValue / A) * 100;
+                const interestPercent = (interestValue / A) * 100;
+                
+                investmentPrincipalBar.style.width = principalPercent + '%';
+                investmentInterestBar.style.width = interestPercent + '%';
+                
+                investmentPrincipalPercentage.textContent = principalPercent.toFixed(1) + '%';
+                investmentInterestPercentage.textContent = interestPercent.toFixed(1) + '%';
+                
+                // Generate yearly breakdown table
+                breakdownBody.innerHTML = '';
+                yearlyBreakdown.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.className = 'border-b border-gray-200';
+                    row.innerHTML = `
+                        <td class="py-2">${item.year}</td>
+                        <td class="py-2 text-right">₹ ${formatNumber(item.value)}</td>
+                        <td class="py-2 text-right">₹ ${formatNumber(item.interest)}</td>
+                    `;
+                    breakdownBody.appendChild(row);
+                });
+            });
+            
+            // Helper Functions
+            function formatNumber(number) {
+                return number.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+            
+            function showLoading() {
+                document.getElementById('loading').style.display = 'flex';
+            }
+            
+            function hideLoading() {
+                document.getElementById('loading').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
