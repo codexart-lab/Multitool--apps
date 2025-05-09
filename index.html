@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Tool Web</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .tool-container {
+            display: none;
+        }
+        
+        .tool-container.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .tab-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            border-bottom: 3px solid #4f46e5;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+        
+        .custom-file-upload {
+            display: inline-block;
+            cursor: pointer;
+            padding: 12px 20px;
+            background: #4f46e5;
+            color: white;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .custom-file-upload:hover {
+            background: #4338ca;
+        }
+        
+        input[type="file"] {
+            display: none;
+        }
+        
+        .tool-card {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            margin: 0 auto;
+        }
+        
+        .input-field {
+            transition: border-color 0.3s;
+        }
+        
+        .input-field:focus {
+            border-color: #4f46e5;
+        }
+        
+        .btn-primary {
+            background-color: #4f46e5;
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: #4338ca;
+        }
+        
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            display: none;
+        }
+        
+        .wave {
+            width: 5px;
+            height: 100px;
+            background: linear-gradient(45deg, #4f46e5, #818cf8);
+            margin: 10px;
+            animation: wave 1s linear infinite;
+            border-radius: 20px;
+        }
+        
+        .wave:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+        
+        .wave:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+        
+        .wave:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+        
+        .wave:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes wave {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(0);
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .tabs-container {
+                flex-wrap: wrap;
+            }
+            
+            .tab-btn {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+            
+            .tool-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="loading">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-3xl font-bold text-center text-gray-800">
+                <span class="text-indigo-600">Multi</span>Tool Web App
+            </h1>
+            <p class="text-center text-gray-600 mt-2">All-in-one toolkit for your image and calculation needs</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="tabs-container flex justify-center mb-8 overflow-x-auto">
+            <button class="tab-btn active px-6 py-3 text-lg" data-tab="image-converter">
+                <i class="fas fa-exchange-alt mr-2"></i>Image Converter
+            </button>
+            <button class="tab-btn px-6 py-3 text-lg" data-tab="image-compressor">
+                <i class="fas fa-compress-alt mr-2"></i>Image Compressor
+            </button>
+            <button class="tab-btn px-6 py-3 text-lg" data-tab="emi-calculator">
+                <i class="fas fa-calculator mr-2"></i>EMI Calculator
+            </button>
+            <button class="tab-btn px-6 py-3 text-lg" data-tab="compound-calculator">
+                <i class="fas fa-chart-line mr-2"></i>Compound Interest
+            </button>
+        </div>
+
+        <!-- Image Converter Tool -->
+        <div id="image-converter" class="tool-container active">
+            <div class="tool-card bg-white p-6 md:p-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6">
+                    <i class="fas fa-exchange-alt text-indigo-600 mr-2"></i>Image Converter
+                </h2>
+                <p class="text-gray-600 mb-6">Convert your images between different formats including PNG, JPEG, WEBP, and more.</p>
+                
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="w-full md:w-1/2">
+                        <div class="bg-gray-100 rounded-lg p-4 text-center mb-4">
+                            <div id="converter-preview-container" class="flex justify-center items-center min-h-[200px]">
+                                <p id="converter-placeholder" class="text-gray-500">
+                                    <i class="fas fa-image text-4xl mb-2 block"></i>
+                                    No image selected
+                                </p>
+                                <img id="converter-preview" class="preview-image hidden" src="#" alt="Preview">
+                            </div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <label class="custom-file-upload">
+                                <input type="file" id="converter-upload" accept="image/*">
+                                <i class="fas fa-upload mr-2"></i>Upload Image
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full md:w-1/2">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Target Format</label>
+                            <select id="format-select" class="w-full p-3 border border-gray-300 rounded-md input-field focus:outline-none">
+                                <option value="png">PNG - High quality with transparency</option>
+                                <option value="jpeg">JPEG - Small size for photos</option>
+                                <option value="webp">WEBP - Modern web format</option>
+                                <option value="bmp">BMP - Uncompressed format</option>
+                            </select>
+                        </div>
+                        
+                        <div id="quality-container" class="mb-4">
+                            <label class="block text-gray-700 mb-2">Quality (for JPEG and WEBP)</label>
+                            <div class="flex items-center">
+                                <input type="range" min="1" max="100" value="90" class="w-full" id="quality-slider">
+                                <span id="quality-value" class="ml-2 min-w-[40px] text-center">90%</span>
+                            </div>
+                        </div>
+                        
+                        <button id="convert-btn" class="btn-primary py-3 px-6 rounded-md w-full mb-4 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            <i class="fas fa-sync-alt mr-2"></i>Convert Image
+                        </button>
+                        
+                        <a id="download-converted" class="btn-primary py-3 px-6 rounded-md w-full block text-center hidden" download="converted-image">
+                            <i class="fas fa-download mr-2"></i>Download Converted Image
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Image Compressor Tool -->
+        <div id="image-compressor" class="tool-container">
+            <div class="tool-card bg-white p-6 md:p-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6">
+                    <i class="fas fa-compress-alt text-indigo-600 mr-2"></i>Image Compressor
+                </h2>
+                <p class="text-gray-600 mb-6">Compress your images to reduce file size while maintaining quality.</p>
+                
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="w-full md:w-1/2">
+                        <div class="bg-gray-100 rounded-lg p-4 text-center mb-4">
+                            <div id="compressor-preview-container" class="flex justify-center items-center min-h-[200px]">
+                                <p id="compressor-placeholder" class="text-gray-500">
+                                    <i class="fas fa-image text-4xl mb-2 block"></i>
+                                    No image selected
+                                </p>
+                                <img id="compressor-preview" class="preview-image hidden" src="#" alt="Preview">
+                            </div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <label class="custom-file-upload">
+                                <input type="file" id="compressor-upload" accept="image/*">
+                                <i class="fas fa-upload mr-2"></i>Upload Image
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full md:w-1/2">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Compression Level</label>
+                            <div class="flex items-center">
+                                <input type="range" min="1" max="100" value="70" class="w-full" id="compression-slider">
+                                <span id="compression-value" class="ml-2 min-w-[40px] text-center">70%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4 bg-gray-100 p-4 rounded-md">
+                            <div class="text-sm text-gray-700 mb-2">Image Details</div>
+                            <div id="original-size" class="text-gray-800">Original Size: -</div>
+                            <div id="compressed-size" class="text-gray-800">Compressed Size: -</div>
+                            <div id="compression-ratio" class="text-gray-800">Compression Ratio: -</div>
+                        </div>
+                        
+                        <button id="compress-btn" class="btn-primary py-3 px-6 rounded-md w-full mb-4 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            <i class="fas fa-compress-alt mr-2"></i>Compress Image
+                        </button>
+                        
+                        <a id="download-compressed" class="btn-primary py-3 px-6 rounded-md w-full block text-center hidden" download="compressed-image">
+                            <i class="fas fa-download mr-2"></i>Download Compressed Image
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EMI Calculator Tool -->
+        <div id="emi-calculator" class="tool-container">
+            <div class="tool-card bg-white p-6 md:p-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6">
+                    <i class="fas fa-calculator text-indigo-600 mr-2"></i>EMI Calculator
+                </h2>
+                <p class="text-gray-600 mb-6">Calculate your Equated Monthly Installments (EMI) for loans and mortgages.</p>
+                
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="w-full md:w-1/2">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Loan Amount (₹)</label>
+                            <input type="number" id="loan-amount" class="w-full p-3 border border-gray-300 rounded-md input-field focus:outline-none" placeholder="E.g., 1000000">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Interest Rate (% per annum)</label>
+                            <input type="number" id="interest-rate" step="0.01" class="w-full p-3 border border-gray-300 rounded-md input-field focus:outline-none" placeholder="E.g., 9.5">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Loan Tenure</label>
+                            <div class="flex">
+                                <input type="number" id="loan-tenure" class="w-full p-3 border border-gray-300 rounded-l-md input-field focus:outline-none" placeholder="E.g., 25">
+                                <select id="tenure-type" class="p-3 border border-gray-300 rounded-r-md input-field focus:outline-none">
+                                    <option value="years">Years</option>
+                                    <option value="months">Months</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <button id="calculate-emi-btn" class="btn-primary py-3 px-6 rounded-md w-full mb-4">
+                            <i class="fas fa-calculator mr-2"></i>Calculate EMI
+                        </button>
+                    </div>
+                    
+                    <div class="w-full md:w-1/2">
+                        <div class="bg-gray-100 p-6 rounded-lg">
+                            <h3 class="text-xl font-semibold mb-4 text-gray-800">EMI Breakdown</h3>
+                            
+                            <div class="mb-4">
+                                <div class="text-gray-600 mb-1">Monthly EMI</div>
+                                <div id="monthly-emi" class="text-3xl font-bold text-indigo-600">₹ 0</div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                <div>
+                                    <div class="text-gray-600 mb-1">Total Interest</div>
+                                    <div id="total-interest" class="text-xl font-semibold">₹ 0</div>
+                                </div>
+                                
+                                <div>
+                                    <div class="text-gray-600 mb-1">Total Amount</div>
+                                    <div id="total-amount" class="text-xl font-semibold">₹ 0</div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white p-4 rounded-md shadow">
+                                <h4 class="font-semibold mb-2">Loan Breakdown</h4>
+                                <div class="relative h-4 rounded-full overflow-hidden bg-gray-200">
+                                    <div id="principal-bar" class="absolute top-0 left-0 h-full bg-indigo-600"></div>
+                                    <div id="interest-bar" class="absolute top-0 right-0 h-full bg-indigo-300"></div>
+                                </div>
+                                <div class="flex justify-between mt-2 text-sm">
+                                    <div>
+                                        <span class="inline-block w-3 h-3 bg-indigo-600 rounded-full mr-1"></span>
+                                        <span>Principal <span id="principal-percentage">0%</span></span>
+                                    </div>
+                                    <div>
+                                        <span class="inline-block w-3 h-3 bg-indigo-300 rounded-full mr-1"></span>
+                                        <span>Interest <span id="interest-percentage">0%</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compound Interest Calculator Tool -->
+        <div id="compound-calculator" class="tool-container">
+            <div class="tool-card bg-white p-6 md:p-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6">
+                    <i class="fas fa-chart-line text-indigo-600 mr-2"></i>Compound Interest Calculator
+                </h2>
+                <p class="text-gray-600 mb-6">Calculate how your investments grow over time with compound interest.</p>
+                
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="w-full md:w-1/2">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Principal Amount (₹)</label>
+                            <input type="number" id="principal-amount" class="w-full p-3 border border-gray-300 rounded-md input-field focus:outline-none" placeholder="E.g., 10000">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Annual Interest Rate (%)</label>
+                            <input type="number" id="annual-rate" step="0.01" class="w-full p-3 border border-gray-300 rounded-md input-field focus:outline-none" placeholder="E.g., 7.5">
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Time Period</label>
+                            <div class="flex">
+                                <input type="number" id="time-period" class="w-full p-3 border border-gray-300 rounded-l-md input-field focus:outline-none" placeholder="E.g., 5">
+                                <select id="time-unit" class="p-3 border border-gray-300 rounded-r-md input-field focus:outline-none">
+                                    <option value="years">Years</option>
+                                    <option value="months">Months</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-700 mb-2">Compounding Frequency</label>
+                            <select id="compound-frequency" class="w-full p-3 border border-gray-300 rounded-md input-field focus:outline-none">
+    
